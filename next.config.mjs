@@ -1,4 +1,5 @@
 import bundleAnalyzer from "@next/bundle-analyzer";
+import CompressionPlugin from "compression-webpack-plugin";
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
@@ -20,8 +21,13 @@ const nextConfig = {
   webpack: (config, { dev, isServer }) => {
     // Enable tree shaking
     config.optimization.usedExports = true;
-
     config.optimization.minimize = true;
+    config.plugins.push(
+      new CompressionPlugin({
+        algorithm: "gzip",
+        threshold: 10240, // Compress files > 10KB
+      })
+    );
 
     // Add production-only optimizations
     if (!dev) {
@@ -31,7 +37,7 @@ const nextConfig = {
       // Split chunks optimization
       config.optimization.splitChunks = {
         chunks: "all",
-        minSize: 20000,
+        minSize: 10000,
         minRemainingSize: 0,
         minChunks: 1,
         maxAsyncRequests: 30,
