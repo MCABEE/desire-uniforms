@@ -30,7 +30,9 @@ const nextConfig = {
     config.plugins.push(
       new CompressionPlugin({
         algorithm: "gzip",
-        threshold: 10240, // Compress files > 10KB
+        threshold: 8192, // Compress files > 10KB
+        minRatio: 0.8,
+        test: /\.(js|css|html|svg)$/,
       })
     );
     config.optimization.minimize = true;
