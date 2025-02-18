@@ -53,10 +53,6 @@ const nextConfig = {
     }
     return config;
   },
-  experimental: {
-    optimizeCss: true,
-    turbo: true,
-  },
 };
 
 export default withBundleAnalyzer(nextConfig);
